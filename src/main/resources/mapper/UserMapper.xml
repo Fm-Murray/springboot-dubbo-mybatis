@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yx.mapper.UserMapper" >
+
+ <resultMap id="BaseResultMap" type="com.yx.vo.User">
+     <id property="id" column="ID" jdbcType="VARCHAR"/>
+     <result property="name" column="NAME" jdbcType="VARCHAR"/>
+     <result property="sex" column="SEX" jdbcType="INTEGER"/>
+     <result property="age" column="AGE" jdbcType="INTEGER"/>
+     <result property="ctime" column="CTIME" jdbcType="VARCHAR"/>
+ </resultMap>
+    
+    <sql id="Base_Column_List">
+        ID,NAME ,SEX,AGE,CTIME
+    </sql>
+  <select id="listuser" resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List" />
+      FROM USER
+  </select>
+
+    <select id="seluser" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM USER
+        WHERE  ID=#{id}
+    </select>
+
+    <insert id="insertUser" parameterType="com.yx.vo.User">
+        INSERT  INTO USER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                ID,
+            </if>
+            <if test="name!=null">
+                NAME,
+            </if>
+            <if test="age!=null">
+                AGE,
+            </if>
+            <if test="sex!=null">
+                SEX,
+            </if>
+            <if test="ctime!=null">
+                CTIME
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+               #{id},
+            </if>
+            <if test="name!=null">
+               #{name},
+            </if>
+            <if test="age!=null">
+                #{age},
+            </if>
+            <if test="sex!=null">
+                #{sex},
+            </if>
+            <if test="ctime!=null">
+                #{ctime}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deluser" parameterType="java.lang.String">
+        DELETE FROM USER WHERE ID=#{id}
+    </delete>
+
+
+</mapper>
